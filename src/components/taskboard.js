@@ -30,11 +30,16 @@ class Taskboard extends Component {
         this.setState({state : this.state});
     }
 
+    renderTasks(){
+        return (this.state.tasks.length === 0) ? "You don't have any tasks." : "";
+    }
+
     render() {
         return (
             <div class="card border shadow">
                 <div class="card-body">
                     <h2 class="card-title text-primary">{this.state.title}</h2>
+                    <h5 class=""> {this.renderTasks()}</h5>
                     {this.state.tasks.map((e, index) => <Task key={e.id} value={e} action={this.deleteTask}/>)}
                     <br></br>
                     <div class="row justify-content-center">
