@@ -4,17 +4,30 @@ import Task from './task';
 class Taskboard extends Component {
 
     state = {
+        idcount : 0,
         title : this.props.value.title,
         tasks : [
-            {
-                name : "Task No. 1",
-                description : "Acabar el proyecto de programación web."
-            },
-            {
-                name : "Task No. 2",
-                description : "Acabar el proyecto de programación web."
-            }
         ]
+    }
+
+    deleteTask = (id) => {
+       var index = this.state.tasks.map(x => {
+        return x.id;
+        }).indexOf(id);
+        this.state.tasks.splice(index, 1);
+        this.setState({state : this.state});
+    }
+
+    addTask = () => {
+        let newTask = {
+            id : this.state.idcount,
+            name : "Task No. " + this.state.idcount,
+            description : "Content of task number " + this.state.idcount
+        }
+        this.state.tasks.push(newTask);
+        this.setState({idcount: this.state.idcount + 1});
+        // Para hacer refresh
+        this.setState({state : this.state});
     }
 
     render() {
@@ -22,10 +35,10 @@ class Taskboard extends Component {
             <div class="card border shadow">
                 <div class="card-body">
                     <h2 class="card-title text-primary">{this.state.title}</h2>
-                    {this.state.tasks.map(e => <Task key={e.name} value={e}/>)}
+                    {this.state.tasks.map((e, index) => <Task key={e.id} value={e} action={this.deleteTask}/>)}
                     <br></br>
                     <div class="row justify-content-center">
-                        <button class="btn btn-primary">Add task</button>
+                        <button class="btn btn-primary" onClick={this.addTask}>Add task</button>
                     </div>
                 </div>
 
